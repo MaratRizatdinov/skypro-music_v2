@@ -28,7 +28,17 @@
 		"react/jsx-filename-extension": [
 			2,
 			{ "extensions": [".js", ".jsx", ".ts", ".tsx"] }
-		]
+		],
+		"import/prefer-default-export": "off",
+		"react/function-component-definition": [
+			"error",
+			{
+				"namedComponents": ["function-declaration", "arrow-function"],
+				"unnamedComponents": "arrow-function"
+			}
+		],
+		"jsx-a11y/click-events-have-key-events": "off",
+		"react/no-unknown-property": ["error", { "ignore": ["tsx"] }]
 	},
 	"settings": {
 		"import/resolver": {
