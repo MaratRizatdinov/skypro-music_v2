@@ -24,20 +24,20 @@ Api для управления пользователями и авториза
 Пример запроса:
 
 ```js
-fetch("https://skypro-music-api.skyeng.tech/user/signup/", {
-  method: "POST",
-  body: JSON.stringify({
-    email: "gleb@fokin.ru",
-    password: "Aa12345!!",
-    username: "gleb@fokin.ru",
-  }),
-  headers: {
-    // API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
-    "content-type": "application/json",
-  },
+fetch('https://skypro-music-api.skyeng.tech/user/signup/', {
+	method: 'POST',
+	body: JSON.stringify({
+		email: 'gleb@fokin.ru',
+		password: 'Aa12345!!',
+		username: 'gleb@fokin.ru',
+	}),
+	headers: {
+		// API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
+		'content-type': 'application/json',
+	},
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+	.then(response => response.json())
+	.then(json => console.log(json))
 ```
 
 #### 201 ответ
@@ -46,11 +46,11 @@ fetch("https://skypro-music-api.skyeng.tech/user/signup/", {
 
 ```json
 {
-  "id": 666,
-  "username": "gleb@fokin.ru",
-  "first_name": "",
-  "last_name": "",
-  "email": "gleb@fokin.ru"
+	"id": 666,
+	"username": "gleb@fokin.ru",
+	"first_name": "",
+	"last_name": "",
+	"email": "gleb@fokin.ru"
 }
 ```
 
@@ -60,13 +60,13 @@ fetch("https://skypro-music-api.skyeng.tech/user/signup/", {
 
 ```json
 {
-  "username": ["Пользователь с таким именем уже существует."],
-  "email": ["Пользователь с таким адрес электронной почты уже существует."],
-  "password": [
-    "Введённый пароль слишком короткий. Он должен содержать как минимум 8 символов.",
-    "Введённый пароль слишком широко распространён.",
-    "Введённый пароль состоит только из цифр."
-  ]
+	"username": ["Пользователь с таким именем уже существует."],
+	"email": ["Пользователь с таким адрес электронной почты уже существует."],
+	"password": [
+		"Введённый пароль слишком короткий. Он должен содержать как минимум 8 символов.",
+		"Введённый пароль слишком широко распространён.",
+		"Введённый пароль состоит только из цифр."
+	]
 }
 ```
 
@@ -84,19 +84,19 @@ fetch("https://skypro-music-api.skyeng.tech/user/signup/", {
 Пример запроса:
 
 ```js
-fetch("https://skypro-music-api.skyeng.tech/user/login/", {
-  method: "POST",
-  body: JSON.stringify({
-    email: "gleb@fokin.ru",
-    password: "gleb@fokin.ru",
-  }),
-  headers: {
-    // API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
-    "content-type": "application/json",
-  },
+fetch('https://skypro-music-api.skyeng.tech/user/login/', {
+	method: 'POST',
+	body: JSON.stringify({
+		email: 'gleb@fokin.ru',
+		password: 'gleb@fokin.ru',
+	}),
+	headers: {
+		// API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
+		'content-type': 'application/json',
+	},
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+	.then(response => response.json())
+	.then(json => console.log(json))
 ```
 
 #### 200 ответ
@@ -105,11 +105,11 @@ fetch("https://skypro-music-api.skyeng.tech/user/login/", {
 
 ```json
 {
-  "id": 666,
-  "username": "gleb@fokin.ru",
-  "first_name": "",
-  "last_name": "",
-  "email": "gleb@fokin.ru"
+	"id": 666,
+	"username": "gleb@fokin.ru",
+	"first_name": "",
+	"last_name": "",
+	"email": "gleb@fokin.ru"
 }
 ```
 
@@ -149,19 +149,19 @@ _Refresh_ токен не протухает со временем, но мож�
 Пример запроса:
 
 ```js
-fetch("https://skypro-music-api.skyeng.tech/user/token/", {
-  method: "POST",
-  body: JSON.stringify({
-    email: "gleb@fokin.ru",
-    password: "gleb@fokin.ru",
-  }),
-  headers: {
-    // API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
-    "content-type": "application/json",
-  },
+fetch('https://skypro-music-api.skyeng.tech/user/token/', {
+	method: 'POST',
+	body: JSON.stringify({
+		email: 'gleb@fokin.ru',
+		password: 'gleb@fokin.ru',
+	}),
+	headers: {
+		// API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
+		'content-type': 'application/json',
+	},
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+	.then(response => response.json())
+	.then(json => console.log(json))
 ```
 
 #### 200 ответ
@@ -170,8 +170,8 @@ fetch("https://skypro-music-api.skyeng.tech/user/token/", {
 
 ```json
 {
-  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MTA0NjUzMSwiaWF0IjoxNjkwOTYwMTMxLCJqdGkiOiI2YTFhODg4Zjg5NjY0NjgyYTBmYWYyNjk4ZjZiNjViZSIsInVzZXJfaWQiOjc5Mn0.idHYiVKZqSxPCpNIvYpFgEs6nRTJ3FuPS60RAKV8XC8",
-  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTYwNDMxLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6ImE4NDAwZjRkNWUzMTQ4NGJiMzE4YzUzMjE3Y2NhNWZmIiwidXNlcl9pZCI6NzkyfQ.SfvLYWbz72DQqWK7SyF4Yx9Zxx8hGsNxHEcwOU0RTk4"
+	"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MTA0NjUzMSwiaWF0IjoxNjkwOTYwMTMxLCJqdGkiOiI2YTFhODg4Zjg5NjY0NjgyYTBmYWYyNjk4ZjZiNjViZSIsInVzZXJfaWQiOjc5Mn0.idHYiVKZqSxPCpNIvYpFgEs6nRTJ3FuPS60RAKV8XC8",
+	"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTYwNDMxLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6ImE4NDAwZjRkNWUzMTQ4NGJiMzE4YzUzMjE3Y2NhNWZmIiwidXNlcl9pZCI6NzkyfQ.SfvLYWbz72DQqWK7SyF4Yx9Zxx8hGsNxHEcwOU0RTk4"
 }
 ```
 
@@ -190,19 +190,19 @@ fetch("https://skypro-music-api.skyeng.tech/user/token/", {
 Пример запроса:
 
 ```js
-fetch("https://skypro-music-api.skyeng.tech/user/token/refresh/", {
-  method: "POST",
-  body: JSON.stringify({
-    refresh:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MTA0NjUzMSwiaWF0IjoxNjkwOTYwMTMxLCJqdGkiOiI2YTFhODg4Zjg5NjY0NjgyYTBmYWYyNjk4ZjZiNjViZSIsInVzZXJfaWQiOjc5Mn0.idHYiVKZqSxPCpNIvYpFgEs6nRTJ3FuPS60RAKV8XC8",
-  }),
-  headers: {
-    // API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
-    "content-type": "application/json",
-  },
+fetch('https://skypro-music-api.skyeng.tech/user/token/refresh/', {
+	method: 'POST',
+	body: JSON.stringify({
+		refresh:
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MTA0NjUzMSwiaWF0IjoxNjkwOTYwMTMxLCJqdGkiOiI2YTFhODg4Zjg5NjY0NjgyYTBmYWYyNjk4ZjZiNjViZSIsInVzZXJfaWQiOjc5Mn0.idHYiVKZqSxPCpNIvYpFgEs6nRTJ3FuPS60RAKV8XC8',
+	}),
+	headers: {
+		// API требует обязательного указания заголовка content-type, так апи понимает что мы посылаем ему json строчку в теле запроса
+		'content-type': 'application/json',
+	},
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+	.then(response => response.json())
+	.then(json => console.log(json))
 ```
 
 #### 200 ответ
@@ -211,7 +211,7 @@ Refresh токен валидный, возвращает новый access то
 
 ```json
 {
-  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTcwNzcwLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6IjcxZjMyZjc5ZGRiMjRhNDE4MGQ5OGVjZTgzMWRkMmYyIiwidXNlcl9pZCI6NzkyfQ.E9SdHw1Aui5HkBIWmO_H0Ibv1-MOgqElLy-BCRiYrrU"
+	"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTcwNzcwLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6IjcxZjMyZjc5ZGRiMjRhNDE4MGQ5OGVjZTgzMWRkMmYyIiwidXNlcl9pZCI6NzkyfQ.E9SdHw1Aui5HkBIWmO_H0Ibv1-MOgqElLy-BCRiYrrU"
 }
 ```
 
@@ -221,8 +221,8 @@ Refresh токен невалидный, возвращает объект с о
 
 ```json
 {
-  "detail": "Токен недействителен или просрочен",
-  "code": "token_not_valid"
+	"detail": "Токен недействителен или просрочен",
+	"code": "token_not_valid"
 }
 ```
 

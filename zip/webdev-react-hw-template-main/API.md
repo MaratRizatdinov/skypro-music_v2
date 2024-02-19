@@ -40,14 +40,14 @@ Access токен можно получить в API "Пользователи �
 ```js
 // Сюда нужно подставить актуальный access токен, т.к. access токен живет только 200 секунд
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTcxMjcxLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6ImE4YzQ5NDNmOWNmNTRlZjI5NmFmNTMyOWUwODM4YWQ5IiwidXNlcl9pZCI6NzkyfQ.5n8YHTjsgAnYnc4gioyV1wPnxM2D16PS6c9kNhC-JoE";
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkwOTcxMjcxLCJpYXQiOjE2OTA5NjAxMzEsImp0aSI6ImE4YzQ5NDNmOWNmNTRlZjI5NmFmNTMyOWUwODM4YWQ5IiwidXNlcl9pZCI6NzkyfQ.5n8YHTjsgAnYnc4gioyV1wPnxM2D16PS6c9kNhC-JoE'
 
-fetch("https://skypro-music-api.skyeng.tech/catalog/track/favorite/all/", {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
+fetch('https://skypro-music-api.skyeng.tech/catalog/track/favorite/all/', {
+	method: 'GET',
+	headers: {
+		Authorization: `Bearer ${accessToken}`,
+	},
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+	.then(response => response.json())
+	.then(json => console.log(json))
 ```

@@ -1,13 +1,15 @@
 import React from 'react'
-import { Navigation } from './Navigation/Navigation'
-import { CenterBlock } from './CenterBlock/CenterBlock'
-import { Sidebar } from './Sidebar/SideBar'
-import { IsLoading } from '../../types/interface'
+import { Navigation } from '../Navigation/Navigation'
+import { CenterBlock } from '../CenterBlock/CenterBlock'
+import { Sidebar } from '../Sidebar/SideBar'
+import * as S from './Main.style'
 
-export const Main = ({ isLoading }: IsLoading) => (
-	<main className='main'>
+
+
+export const Main = () => (
+	<S.Main>
 		<Navigation />
-		<CenterBlock isLoading={isLoading} />
+		<CenterBlock />
 		<Sidebar />
-	</main>
+	</S.Main>
 )

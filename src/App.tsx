@@ -1,27 +1,23 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
-import './App.css'
-import { Main } from './components/Main/Main'
-import { Bar } from './components/Bar/Bar'
+/* eslint-disable react/jsx-no-constructed-context-values */
+import React, { useState} from 'react'
+import { UserContext } from './contexts/userContext'
+import { GlobalStyle } from './GlobalStyle'
+import { AppRoutes } from './routes'
 
-function App() {
-	const [isLoading, setIsLoading] = useState(true)
+const App = () => {
+	const [isUser, setIsUser] = useState(false)
+	const userName =localStorage.getItem("token")
+	const userProps = { isUser, setIsUser, userName }
 
-	useEffect(() => {
-		setTimeout(() => {
-			setIsLoading(prev => !prev)
-			
-		}, 5000)
-	}, [])
+	
 
 	return (
-		<div className='App'>
-			<div className='container'>
-				<Main isLoading={isLoading} />
-				<Bar />
-				<footer className='footer' />
-			</div>
-		</div>
+		<>
+			<GlobalStyle />
+			<UserContext.Provider value={userProps}>
+				<AppRoutes isUser={isUser} />
+			</UserContext.Provider>
+		</>
 	)
 }
 

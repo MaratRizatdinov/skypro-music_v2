@@ -1,90 +1,67 @@
-import React from 'react'
+/* eslint-disable no-unused-expressions */
+import React, { useState, useRef, useEffect } from 'react'
+import { PlayerControls } from '../PlayerControls/PlayerControls'
+import { PlayerTrack } from '../PlayerTrack/PlayerTrack'
+import { VolumeBlock } from '../VolumeBlock/VolumeBlock'
+import * as S from './Bar.style'
+import { ProgressBar } from '../ProgressBar/ProgressBar'
+import { IInit, Itrack } from '../../types/ITrack'
+import { useAppSelector } from '../../store/hooks'
+import { useNextTrack } from '../../hooks/useTrackControls' 
 
+type Iprops = {
+	currentTrack: Itrack | IInit | undefined
+}
+export const Bar = ({ currentTrack }: Iprops) => {
 
-export const Bar = () => (
-	<div className='bar'>
-		<div className='bar__content'>
-			<div className='bar__player-progress' />
-			<div className='bar__player-block'>
-				<div className='bar__player player'>
-					<div className='player__controls'>
-						<div className='player__btn-prev'>
-							<svg className='player__btn-prev-svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-prev' />
-							</svg>
-						</div>
-						<div className='player__btn-play _btn'>
-							<svg className='player__btn-play-svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-play' />
-							</svg>
-						</div>
-						<div className='player__btn-next'>
-							<svg className='player__btn-next-svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-next' />
-							</svg>
-						</div>
-						<div className='player__btn-repeat _btn-icon'>
-							<svg className='player__btn-repeat-svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-repeat' />
-							</svg>
-						</div>
-						<div className='player__btn-shuffle _btn-icon'>
-							<svg className='player__btn-shuffle-svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-shuffle' />
-							</svg>
-						</div>
-					</div>
+	
+	const audioRef = useRef<HTMLAudioElement>(null)
+	const [currentTime, setCurrentTime] = useState(0)
+	const [duration, setDuration] = useState(0)
+	const track = currentTrack as Itrack
+	const isPlaying = useAppSelector(state => state.tracks.isPlaying)
+	const getNextTrack =useNextTrack('onListEnd')
 
-					<div className='player__track-play track-play'>
-						<div className='track-play__contain'>
-							<div className='track-play__image'>
-								<svg className='track-play__svg'>
-									<use xlinkHref='img/icon/sprite.svg#icon-note' />
-								</svg>
-							</div>
-							<div className='track-play__author'>
-								<a className='track-play__author-link' href='http://'>
-									Ты та...
-								</a>
-							</div>
-							<div className='track-play__album'>
-								<a className='track-play__album-link' href='http://'>
-									Баста
-								</a>
-							</div>
-						</div>
+	useEffect(() => {
+		const audio = audioRef.current as HTMLAudioElement
+		isPlaying ? audio.play() : audio.pause()
+	}, [isPlaying, track])
 
-						<div className='track-play__like-dis'>
-							<div className='track-play__like _btn-icon'>
-								<svg className='track-play__like-svg'>
-									<use xlinkHref='img/icon/sprite.svg#icon-like' />
-								</svg>
-							</div>
-							<div className='track-play__dislike _btn-icon'>
-								<svg className='track-play__dislike-svg'>
-									<use xlinkHref='img/icon/sprite.svg#icon-dislike' />
-								</svg>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className='bar__volume-block volume'>
-					<div className='volume__content'>
-						<div className='volume__image'>
-							<svg className='volume__svg'>
-								<use xlinkHref='img/icon/sprite.svg#icon-volume' />
-							</svg>
-						</div>
-						<div className='volume__progress _btn'>
-							<input
-								className='volume__progress-line _btn'
-								type='range'
-								name='range'
-							/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-)
+	useEffect(() => {
+		const audio = audioRef.current as HTMLAudioElement
+		const timeUpdate = () => {
+			if (audio.currentTime && audio.duration) {
+				setCurrentTime(audio.currentTime)
+				setDuration(audio.duration)
+			} else {
+				setCurrentTime(0)
+				setDuration(0)
+			}
+		}
+		audio.addEventListener('timeupdate', timeUpdate)
+		return () => {
+			audio.removeEventListener('timeupdate', timeUpdate)
+		}
+	}, [])	
+
+	return (
+		<S.Bar>
+			<audio src={track.track_file} controls ref={audioRef} onEnded={getNextTrack}/>
+			<S.BarContent>
+				<ProgressBar
+					currentTime={currentTime}
+					duration={duration}
+					audioRef={audioRef}
+				/>
+				<S.BarProgress />
+				<S.BarPlayerBlock>
+					<S.BarPlayer>
+						<PlayerControls audioRef={audioRef} />
+						<PlayerTrack track={track} />
+					</S.BarPlayer>
+					<VolumeBlock audioRef={audioRef} />
+				</S.BarPlayerBlock>
+			</S.BarContent>
+		</S.Bar>
+	)
+}
