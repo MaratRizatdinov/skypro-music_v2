@@ -29,24 +29,34 @@ export interface IInit {
 }
 
 export interface ItrackResponse {
-	album: string
-	author: string
-	duration_in_seconds: number
-	genre: string
-	id: number
-	logo: string | null
-	name: string
-	release_date: string
+	album: string//----------------------
+	author: string//-------------------
+	duration_in_seconds: number//----------------------
+	genre: string//----------------------
+	id: number//-------------------
+	logo: string | null//---------------------------
+	name: string//--------------------
+	release_date: string//--------------------
 	stared_user: Array<IstaredUser>
-	track_file: string
+	track_file: string//----------------------------
 }
 
-export interface Itrack extends ItrackResponse {
+export interface Itrack  {
+	album: string//----------------------
+	author: string//-------------------
+	duration_in_seconds: number//----------------------
+	genre: string//----------------------
+	id: number//-------------------
+	logo: string | null//---------------------------
+	name: string//--------------------
+	release_date: string//--------------------
+	// stared_user: Array<IstaredUser>
+	track_file: string//----------------------------
 	isLiked: boolean
 }
 
 export interface ICategoryProps{
-	categoryId: number
+	categoryId: string
 	userID: number
 }
 
@@ -54,4 +64,17 @@ export interface ICategoryProps{
 export interface ICategoryResponse{
 	id:number
 	items:ItrackResponse[]
+}
+
+export interface IFavoriteResponse {
+	album: string//----------------------
+	author: string//-------------------
+	duration_in_seconds: number//----------------------
+	genre: string//----------------------
+	id: number//-------------------
+	logo: string | null//---------------------------
+	name: string//--------------------
+	release_date: string//--------------------
+	
+	track_file: string//----------------------------
 }

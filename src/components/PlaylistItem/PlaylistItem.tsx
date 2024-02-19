@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import * as S from './PlaylistItem.style'
 import { Sceleton } from '../Sceleton/Sceleton'
 import { createTimeString } from '../../scripts/createTimeString'
-import { playTrack, setCurrentTrack } from '../../store/reducers/trackSlice'
+import { playTrack, setCurrentList, setCurrentTrack } from '../../store/reducers/trackSlice'
 import { IInit, Itrack } from '../../types/ITrack'
 import { useAppSelector } from '../../store/hooks'
 import { TrackTitleImage } from '../TrackTitleImage/TrackTitleImage'
@@ -17,17 +17,19 @@ import {
 interface IProps {
 	track: Itrack | IInit
 	isLoadingMode: boolean
+	list :Itrack[] |IInit[]
 }
 
-export const PlaylistItem = ({ track, isLoadingMode }: IProps) => {
+export const PlaylistItem = ({ track, isLoadingMode, list}: IProps) => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const isPlaying = useAppSelector(state => state.tracks.isPlaying)
 	const [addLike] = useAddLikeMutation()
 	const [deleteLike] = useDeleteLikeMutation()
 
-	const selectTrackClick = () => {
+	const selectTrackClick = () => {		
 		dispatch(setCurrentTrack(track))
+		dispatch(setCurrentList(list))
 		if (!isPlaying) dispatch(playTrack())
 	}
 

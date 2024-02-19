@@ -7,13 +7,13 @@ import {
 	clearShuffle,
 	setShuffleToState,
 } from '../../store/reducers/trackSlice'
-import { useGetTracksWithId } from '../../hooks/useGetTracksWithId'
+// import { useGetTracksWithId } from '../../hooks/useGetTracksWithId'
 import { INITARRAY } from '../../constants/initArray'
 
 
 export const ShuffleButton = () => {
 	const dispatch = useDispatch()	
-	const {data:trackList} = useGetTracksWithId()
+	const trackList = useAppSelector(state=> state.tracks.currentList)
 	const shuffleStatus = useAppSelector(state => state.tracks.shuffleList.status)
 
 	const handleClick = () => {

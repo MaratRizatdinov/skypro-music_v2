@@ -9,17 +9,20 @@ type INext = 'onclick' | 'onListEnd'
 export const useNextTrack = (type: INext) => {
 	const dispatch = useDispatch()
 	const trackList = useGetCurrentPlaylist()
+	const shuffleStatus =useAppSelector(s=>s.tracks.shuffleList.status)
 	const currentTrack = useAppSelector(
 		state => state.tracks.currentTrack,
 	) as Itrack
 
 	const getNextTrack = () => {
-		const nextIndex = trackList.indexOf(currentTrack) + 1
-		if (nextIndex === trackList.length && type === 'onclick') return
-		if (nextIndex === trackList.length && type === 'onListEnd') {
+		let nextIndex = trackList.indexOf(currentTrack) + 1
+		if (nextIndex === trackList.length && type === 'onclick' && shuffleStatus===false) return
+		if (nextIndex === trackList.length && type === 'onclick' && shuffleStatus===true) nextIndex=0
+		if (nextIndex === trackList.length && type === 'onListEnd' && shuffleStatus===false) {
 			dispatch(pauseTrack())
 			return
 		}
+		if (nextIndex === trackList.length && type === 'onListEnd' && shuffleStatus===true) nextIndex=0
 		dispatch(setCurrentTrack(trackList[nextIndex]))
 	}
 	return getNextTrack
@@ -28,12 +31,14 @@ export const useNextTrack = (type: INext) => {
 export const usePrevTrack = () => {
 	const dispatch = useDispatch()
 	const trackList = useGetCurrentPlaylist()
+	const shuffleStatus =useAppSelector(s=>s.tracks.shuffleList.status)
 	const currentTrack = useAppSelector(
 		state => state.tracks.currentTrack,
 	) as Itrack
 	const getPrevTrack = () => {
-		const prevIndex = trackList.indexOf(currentTrack) - 1
-		if (prevIndex === -1) return
+		let prevIndex = trackList.indexOf(currentTrack) - 1
+		if (prevIndex === -1 && shuffleStatus===false) return
+		if (prevIndex === -1 && shuffleStatus===true) prevIndex =trackList.length-1
 		dispatch(setCurrentTrack(trackList[prevIndex]))
 	}
 	return getPrevTrack

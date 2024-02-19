@@ -6,7 +6,8 @@ import { IUserState, IUserResponse } from '../../types/IUserTypes'
 
 interface TrackState {	
 	isPlaying: boolean
-	currentTrack?: Itrack | IInit	
+	currentTrack?: Itrack | IInit
+	currentList?: Itrack []| IInit[]
 	isLoop: boolean
 	user?: IUserState
 	shuffleList:
@@ -26,6 +27,9 @@ const trackSlice = createSlice({
 		setCurrentTrack(state, action: PayloadAction<Itrack | IInit>) {
 			state.currentTrack = action.payload
 		},		
+		setCurrentList(state, action:PayloadAction<Itrack[] | IInit[]>){
+			state.currentList = action.payload
+		},
 		playTrack(state) {
 			state.isPlaying = true
 		},
@@ -56,6 +60,7 @@ const trackSlice = createSlice({
 })
 export const {	
 	setCurrentTrack,	
+	setCurrentList,	
 	playTrack,
 	pauseTrack,
 	toggleLoop,

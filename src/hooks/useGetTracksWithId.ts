@@ -11,7 +11,7 @@ export const useGetTracksWithId = () => {
 	return getTracksWithId
 }
 
-export const useGetCategoryTracksWithId = (id: number) => {
+export const useGetCategoryTracksWithId = (id: string) => {
 	const userID = useAppSelector(state => state.tracks.user?.id) as number
 	const getCategoryTracksWithId = useGetCategoryTracksQuery({
 		categoryId: id,

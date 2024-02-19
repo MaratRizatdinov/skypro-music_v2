@@ -2,45 +2,16 @@ import React from 'react'
 import { PlaylistItem } from '../PlaylistItem/PlaylistItem'
 import * as S from '../ContentBlock/ContentBlock.style'
 import { INITARRAY } from '../../constants/initArray'
-import { useGetTracksWithId } from '../../hooks/useGetTracksWithId'
 import { Itrack } from '../../types/ITrack'
 
 interface IProps {
-	page?: string
-	
+	playlist: Itrack[] | undefined
+	isLoading: boolean
+	isError: boolean
 }
 
-export const TrackBlock = ({ page = 'main' }: IProps) => {
-	const { data: playlist, isLoading, isError } = useGetTracksWithId()
-
-	const getShowingList = (path: string) => {
-		let showingList: Itrack[]|[]
-		if (playlist) {
-			if (path === 'favorites') {
-				showingList = playlist.filter(track => (track.isLiked === true))
-				return showingList
-			}
-			if (path === 'classic') {
-				showingList = playlist.filter(track => (track.genre==="Классическая музыка"))
-				return showingList
-			}
-			if (path === 'rock') {
-				showingList = playlist.filter(track => (track.genre==="Рок музыка"))
-				return showingList
-			}
-			if (path === 'elektro') {
-				showingList = playlist.filter(track => (track.genre==="Электронная музыка"))
-				return showingList
-			}
-
-			return playlist
-		}
-		return undefined
-	}
-
-	const showingList = getShowingList(page)
-
-	if (isError|| !showingList) {
+export const TrackBlock = ({ playlist, isLoading, isError }: IProps) => {
+	if (isError || !playlist) {
 		return (
 			<S.Playlist>
 				<S.ErrorBlock>Не удалось загрузить плейлист, попробуйте позже</S.ErrorBlock>
@@ -50,13 +21,13 @@ export const TrackBlock = ({ page = 'main' }: IProps) => {
 	if (isLoading) {
 		return (
 			<S.Playlist>
-				{INITARRAY.map(track => (
-					<PlaylistItem key={track.id} track={track} isLoadingMode={isLoading} />
+				{INITARRAY.map((track,_,list) => (
+					<PlaylistItem key={track.id} track={track} isLoadingMode={isLoading} list={list} />
 				))}
 			</S.Playlist>
 		)
 	}
-	if (showingList && showingList.length===0) {
+	if (playlist && playlist.length === 0) {
 		return (
 			<S.Playlist>
 				<S.ErrorBlock>В данном плейлисте отсутствуют треки</S.ErrorBlock>
@@ -65,10 +36,9 @@ export const TrackBlock = ({ page = 'main' }: IProps) => {
 	}
 	return (
 		<S.Playlist>
-			{showingList &&
-				showingList.map(track => (
-					<PlaylistItem key={track.id} track={track} isLoadingMode={isLoading} />
-				))}
+			{playlist.map((track,_,list) => (
+				<PlaylistItem key={track.id} track={track} isLoadingMode={isLoading} list={list} />
+			))}
 		</S.Playlist>
 	)
 }
