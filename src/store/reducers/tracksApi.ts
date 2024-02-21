@@ -1,10 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-import {
-	createApi,
-	fetchBaseQuery,
-	FetchBaseQueryError,
-} from '@reduxjs/toolkit/query/react'
+import { createApi, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import {
 	ICategoryResponse,
 	Itrack,
@@ -12,24 +8,21 @@ import {
 	ICategoryProps,
 	IFavoriteResponse,
 } from '../../types/ITrack'
-import { RootState } from '..'
+import {
+	ISignBody,
+	IUserResponse,
+	ILogInBody,
+	ITokens,
+} from '../../types/IUserTypes'
+import { baseQueryWithReauth } from '../baseQueryWithAuth'
 
 export const tracksApi = createApi({
 	reducerPath: 'tracksApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://skypro-music-api.skyeng.tech/catalog/',
-		prepareHeaders(headers, api) {
-			const token = (api.getState() as RootState).tracks.user?.access
-			if (token) {
-				headers.set('Authorization', `Bearer ${token}`)
-			}
-			return headers
-		},
-	}),
-	tagTypes: ['Track'],
+	tagTypes: ['Track', 'User'],
+	baseQuery: baseQueryWithReauth,
 	endpoints: builder => ({
 		getAllTracks: builder.query<Itrack[], number>({
-			query: () => 'track/all/',
+			query: () => 'catalog/track/all/',
 			transformResponse: (response: ItrackResponse[], meta, arg): Itrack[] => {
 				const result: Itrack[] = response.map(elem => {
 					const obj = { isLiked: false }
@@ -37,17 +30,17 @@ export const tracksApi = createApi({
 						obj.isLiked = true
 					}
 
-					return (elem = { ...elem, ...obj })
+					return { ...elem, ...obj }
 				})
 
 				return result
 			},
 			transformErrorResponse: (error): FetchBaseQueryError => error,
-			providesTags: ['Track'],
+			providesTags: ['Track', 'User'],
 		}),
 
 		getCategoryTracks: builder.query<Itrack[], ICategoryProps>({
-			query: ({ categoryId }) => `selection/${categoryId}`,
+			query: ({ categoryId }) => `catalog/selection/${categoryId}`,
 			transformResponse: (response: ICategoryResponse, meta, arg): Itrack[] => {
 				const array = response.items
 				const result: Itrack[] = array.map(elem => {
@@ -56,34 +49,32 @@ export const tracksApi = createApi({
 						obj.isLiked = true
 					}
 
-					return (elem = { ...elem, ...obj })
+					return { ...elem, ...obj }
 				})
 
 				return result
 			},
 			transformErrorResponse: (error): FetchBaseQueryError => error,
-			providesTags: ['Track'],
+			providesTags: ['Track', 'User'],
 		}),
 		getFavoriteTracks: builder.query<Itrack[], void>({
-			query: () => `track/favorite/all/`,
+			query: () => `catalog/track/favorite/all/`,
 			transformResponse: (response: IFavoriteResponse[]): Itrack[] => {
-				
 				const result: Itrack[] = response.map(elem => {
 					const obj = { isLiked: true }
-					
 
-					return (elem = { ...elem, ...obj })
+					return { ...elem, ...obj }
 				})
 
 				return result
 			},
 			transformErrorResponse: (error): FetchBaseQueryError => error,
-			providesTags: ['Track'],
+			providesTags: ['Track', 'User'],
 		}),
 
 		addLike: builder.mutation({
 			query: ({ id }) => ({
-				url: `track/${id}/favorite/`,
+				url: `catalog/track/${id}/favorite/`,
 				method: 'POST',
 			}),
 			transformErrorResponse: (error): FetchBaseQueryError => error,
@@ -91,19 +82,49 @@ export const tracksApi = createApi({
 		}),
 		deleteLike: builder.mutation({
 			query: ({ id }) => ({
-				url: `track/${id}/favorite/`,
+				url: `catalog/track/${id}/favorite/`,
 				method: 'DELETE',
 			}),
 			transformErrorResponse: (error): FetchBaseQueryError => error,
 			invalidatesTags: ['Track'],
 		}),
+		signUp: builder.mutation<IUserResponse, ISignBody>({
+			query: body => ({
+				url: 'user/signup/',
+				method: 'POST',
+				body,
+			}),
+			transformErrorResponse: (error): FetchBaseQueryError => error,
+			invalidatesTags: ['User'],
+		}),
+		logIn: builder.mutation<IUserResponse, ILogInBody>({
+			query: body => ({
+				url: 'user/login/',
+				method: 'POST',
+				body,
+			}),
+			transformErrorResponse: (error): FetchBaseQueryError => error,
+			invalidatesTags: ['User'],
+		}),
+		getTokens: builder.mutation<ITokens, ILogInBody>({
+			query: body => ({
+				url: 'user/token/',
+				method: 'POST',
+				body,
+			}),
+			transformErrorResponse: (error): FetchBaseQueryError => error,
+		}),
 	}),
 })
+
 export const {
 	useGetAllTracksQuery,
 	useAddLikeMutation,
 	useDeleteLikeMutation,
 	useGetCategoryTracksQuery,
 	useGetFavoriteTracksQuery,
+	useSignUpMutation,
+	useLogInMutation,
+	useGetTokensMutation,
 } = tracksApi
 // https://skypro-music-api.skyeng.tech/catalog/track/<id>/favorite/

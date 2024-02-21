@@ -25,3 +25,4 @@ export interface ITokens {
 export interface IUserState extends IUserResponse{
 	access? : string
 }
+export type Isort ='По умолчанию' |'По возрастанию' | 'По убыванию'

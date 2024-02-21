@@ -1,26 +1,24 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useRef, useEffect } from 'react'
-import { PlayerControls } from '../PlayerControls/PlayerControls'
-import { PlayerTrack } from '../PlayerTrack/PlayerTrack'
-import { VolumeBlock } from '../VolumeBlock/VolumeBlock'
+import { PlayerControls } from './PlayerControls/PlayerControls'
+import { PlayerTrack } from './PlayerTrack/PlayerTrack'
+import { VolumeBlock } from './VolumeBlock/VolumeBlock'
 import * as S from './Bar.style'
-import { ProgressBar } from '../ProgressBar/ProgressBar'
+import { ProgressBar } from './ProgressBar/ProgressBar'
 import { IInit, Itrack } from '../../types/ITrack'
 import { useAppSelector } from '../../store/hooks'
-import { useNextTrack } from '../../hooks/useTrackControls' 
+import { useTracksControl } from '../../hooks/useTrackControls'
 
 type Iprops = {
 	currentTrack: Itrack | IInit | undefined
 }
 export const Bar = ({ currentTrack }: Iprops) => {
-
-	
 	const audioRef = useRef<HTMLAudioElement>(null)
 	const [currentTime, setCurrentTime] = useState(0)
 	const [duration, setDuration] = useState(0)
 	const track = currentTrack as Itrack
-	const isPlaying = useAppSelector(state => state.tracks.isPlaying)
-	const getNextTrack =useNextTrack('onListEnd')
+	const isPlaying = useAppSelector(state => state.tracks.isPlaying)	
+	const {getNextTrack} = useTracksControl()
 
 	useEffect(() => {
 		const audio = audioRef.current as HTMLAudioElement
@@ -42,11 +40,16 @@ export const Bar = ({ currentTrack }: Iprops) => {
 		return () => {
 			audio.removeEventListener('timeupdate', timeUpdate)
 		}
-	}, [])	
+	}, [])
 
 	return (
 		<S.Bar>
-			<audio src={track.track_file} controls ref={audioRef} onEnded={getNextTrack}/>
+			<audio
+				src={track.track_file}
+				controls
+				ref={audioRef}
+				onEnded={()=>getNextTrack('onListEnd')}
+			/>
 			<S.BarContent>
 				<ProgressBar
 					currentTime={currentTime}

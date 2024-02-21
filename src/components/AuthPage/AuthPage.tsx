@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
 import * as S from './AuthPage.styles'
-import { LoginMode } from '../LoginMode/LoginMode'
-import RegistrationMode from '../RegistrationMode/RegistrationMode'
+import { LoginMode } from './LoginMode/LoginMode'
+import RegistrationMode from './RegistrationMode/RegistrationMode'
 import { UserContext } from '../../contexts/userContext'
 
 interface IProps {
