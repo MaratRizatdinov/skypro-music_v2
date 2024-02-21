@@ -47,7 +47,7 @@ export const Bar = ({ currentTrack }: Iprops) => {
 			<audio
 				src={track.track_file}
 				controls
-				ref={audioRef}
+				ref={audioRef}				
 				onEnded={()=>getNextTrack('onListEnd')}
 			/>
 			<S.BarContent>

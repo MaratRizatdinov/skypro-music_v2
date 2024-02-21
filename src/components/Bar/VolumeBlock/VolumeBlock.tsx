@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as S from './VolumeBlock.style'
 
 interface Iprops {
@@ -8,7 +8,11 @@ interface Iprops {
 export const VolumeBlock = ({ audioRef }: Iprops) => {
 	const [volume, setVolume] = useState(0.2)
 	const audio = audioRef.current
-	
+	useEffect(() => {
+		if (audio) {
+			audio.volume = volume			
+		}
+	}, [audio])
 
 	const handleVolumeChange = (newVolume: number) => {
 		if (audio) {
