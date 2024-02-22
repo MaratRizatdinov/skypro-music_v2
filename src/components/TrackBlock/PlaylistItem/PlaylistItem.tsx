@@ -1,18 +1,11 @@
-/* eslint-disable no-unused-expressions */
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import * as S from './PlaylistItem.style'
 import { Sceleton } from '../../Sceleton/Sceleton'
 import { createTimeString } from '../../../scripts/createTimeString'
-import {
-	playTrack,
-	setCurrentList,
-	setCurrentTrack,
-} from '../../../store/reducers/trackSlice'
 import { IInit, Itrack } from '../../../types/ITrack'
-import { useAppSelector } from '../../../store/hooks'
 import { TrackTitleImage } from '../../TrackTitleImage/TrackTitleImage'
 import { useLike } from '../../../hooks/useLike'
+import { useGetCurrentTrack } from '../../../hooks/useGetCurrentTrack'
 
 interface IProps {
 	track: Itrack | IInit
@@ -21,15 +14,8 @@ interface IProps {
 }
 
 export const PlaylistItem = ({ track, isLoadingMode, list }: IProps) => {
-	
-	const dispatch = useDispatch()
-	const isPlaying = useAppSelector(state => state.tracks.isPlaying)	
 	const likeClick =useLike()
-	const selectTrackClick = () => {
-		dispatch(setCurrentTrack(track))
-		dispatch(setCurrentList(list))
-		if (!isPlaying) dispatch(playTrack())
-	}
+	const selectTrackClick =useGetCurrentTrack({track,list})
 
 	return (
 		<S.Item onClick={selectTrackClick}>

@@ -49,6 +49,7 @@ export const Bar = ({ currentTrack }: Iprops) => {
 				controls
 				ref={audioRef}				
 				onEnded={()=>getNextTrack('onListEnd')}
+				style={{display:'none'}}
 			/>
 			<S.BarContent>
 				<ProgressBar
